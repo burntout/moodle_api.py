@@ -1,7 +1,7 @@
 from requests import get, post
 # Module variables to connect to moodle api
 KEY = "SECRET API KEY"
-URL = "https://moodle.site.com"
+URL = "https://moodle.example"
 ENDPOINT="/webservice/rest/server.php"
 
 def rest_api_parameters(in_args, prefix='', out_dict=None):
@@ -38,7 +38,9 @@ def call(fname, **kwargs):
                            courses = [{'id': 1, 'fullname': 'My favorite course'}])
     """
     parameters = rest_api_parameters(kwargs)
+    # print(parameters)
     parameters.update({"wstoken": KEY, 'moodlewsrestformat': 'json', "wsfunction": fname})
+    # print(parameters)
     response = post(URL+ENDPOINT, parameters)
     response = response.json()
     if type(response) == dict and response.get('exception'):
@@ -106,7 +108,7 @@ class User():
     """Class for a single user.
     
     Example:
-    >>> User(name="Janez", surname="Novak", email="janez.novak@student.si", username="jnovak", password="sila varno geslo")"""
+    >>> User(firstname="TEST", surname="USER", email="test.user@student.example", username="testuser", password="foobar", idnumber='1234', auth="ldap")"""
     
     def __init__(self, **data):
         self.__dict__.update(data)
@@ -164,9 +166,3 @@ class User():
             if course:
                 self.courses.append(course)
         return self.courses
-                
-class Cathegory():
-    pass
-
-class Enrolments():
-    pass
